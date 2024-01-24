@@ -1,30 +1,35 @@
-import { useEffect, useState } from 'react'
+import { Suspense, lazy } from 'react';
 import './App.css'
-import { EVENTS } from './consts';
-import HomePage from './pages/Home';
-import AboutPage from './pages/About';
+// import HomePage from './pages/Home';
+// import AboutPage from './pages/About';
+import Router from './Router';
+import Page404 from './pages/404';
 
+const AboutPage = lazy(() => import('./pages/About'));
+const HomePage = lazy(() => import('./pages/Home'));
+
+const routes = [
+  {
+    path: "/",
+    Component: HomePage
+  },
+  {
+    path: "/about",
+    Component: AboutPage
+  }, {
+    path: "/twitch",
+    Component: () => <h1>Twitch</h1>
+  }
+];
 
 function App() {
-  const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
-  useEffect(() => {
-    const onLocationChange = () => {
-      setCurrentPath(window.location.pathname);
-    }
-    window.addEventListener(EVENTS.PUSHSTATE, onLocationChange);
-    window.addEventListener(EVENTS.POPSTATE, onLocationChange)
-
-    return () => {
-      window.removeEventListener(EVENTS.PUSHSTATE, onLocationChange);
-      window.removeEventListener(EVENTS.POPSTATE, onLocationChange)
-    }
-  }, [])
 
   return (
     <main>
-      {currentPath === "/" && <HomePage />}
-      {currentPath === "/about" && <AboutPage />}
+      <Suspense fallback={<div>Loading...</div>}>
+        <Router routes={routes} defaultComponent={Page404} />
+      </Suspense>
     </main>
   )
 }

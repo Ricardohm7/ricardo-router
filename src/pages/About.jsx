@@ -1,5 +1,5 @@
 import { Link } from "../Link";
-
+console.log("about page");
 function AboutPage() {
   return (
     <>
