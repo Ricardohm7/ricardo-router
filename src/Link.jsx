@@ -9,7 +9,6 @@ export function navigate(href) {
 
 export function Link({ target, to, ...props }) {
   const handleClick = (event) => {
-    console.log('button', event.button)
     const isMainEvent = event.button === BUTTON.PRIMARY // primary click
     const isModifiedEvent = event.metaKey || event.altKey || event.ctrlKey || event.shiftKey // modified click
     const isManageableEvent = target === undefined || target === '_self'
