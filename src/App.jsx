@@ -4,6 +4,8 @@ import './App.css'
 // import AboutPage from './pages/About';
 import Router from './Router';
 import Page404 from './pages/404';
+import Search from './pages/Search';
+import { Route } from './Route';
 
 const AboutPage = lazy(() => import('./pages/About'));
 const HomePage = lazy(() => import('./pages/Home'));
@@ -13,13 +15,17 @@ const routes = [
     path: "/",
     Component: HomePage
   },
-  {
-    path: "/about",
-    Component: AboutPage
-  }, {
-    path: "/twitch",
-    Component: () => <h1>Twitch</h1>
-  }
+  // {
+  //   path: "/about",
+  //   Component: AboutPage
+  // }, {
+  //   path: "/twitch",
+  //   Component: () => <h1>Twitch</h1>
+  // },
+  // {
+  //   path: "/search/:query",
+  //   Component: Search
+  // }
 ];
 
 function App() {
@@ -28,7 +34,11 @@ function App() {
   return (
     <main>
       <Suspense fallback={<div>Loading...</div>}>
-        <Router routes={routes} defaultComponent={Page404} />
+        <Router routes={routes} defaultComponent={Page404}>
+          <Route path="/" Component={HomePage} />
+          <Route path="/about" Component={AboutPage} />
+          <Route path="/search/:query" Component={Search} />
+        </Router>
       </Suspense>
     </main>
   )
